@@ -33,16 +33,16 @@ public class HashMapModelTester {
         }).start();
 
         // 模拟业务线程不断从model b中读取数据
-        new Thread(()-> {
-            while(true) {
-                b.getStoreMap().entrySet()
-                        .forEach(System.out::println);
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ignored) {}
-            }
-        }).start();
+//        new Thread(()-> {
+//            while(true) {
+//                b.getStoreMap().entrySet()
+//                        .forEach(System.out::println);
+//
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException ignored) {}
+//            }
+//        }).start();
 
 //        sa.close();
 //        sb.close();

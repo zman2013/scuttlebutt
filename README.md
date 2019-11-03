@@ -39,6 +39,8 @@ while(true) {
 }
 ```
 #### 结果
+a产生更新，b自动同步delta
+![](https://github.com/zman2013/scuttlebutt/blob/master/output/scuttlebut_inner_process.png) 
 
 ### 2 跨网络数据同步
 #### 全部代码
@@ -80,9 +82,8 @@ while(true) {
 }
 ```
 #### 结果
-Server端  
-
-Client端  
+Client产生更新，Server自动同步delta
+![](https://github.com/zman2013/scuttlebutt/blob/master/output/scuttlebut_server_client.png)
 
 
 

@@ -124,9 +124,9 @@ while(true) {
 Client产生更新，Server自动同步delta
 ![](https://github.com/zman2013/scuttlebutt/blob/master/output/scuttlebut_server_client.png)
 
-
-> https://github.com/jacobbubu/scuttlebutt-pull
-> https://github.com/dominictarr/scuttlebutt
+## 引用
+> https://github.com/jacobbubu/scuttlebutt-pull  
+> https://github.com/dominictarr/scuttlebutt  
 > http://www.cs.cornell.edu/home/rvr/papers/flowgossip.pdf
 
 

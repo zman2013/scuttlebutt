@@ -1,6 +1,8 @@
 import org.junit.Test;
 
 import javax.xml.ws.Holder;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -82,6 +84,18 @@ public class PullStreamTest {
                 .get();
 
         System.out.println("a:"+a);
+    }
+
+    @Test
+    public void testComparator(){
+        Stream.of(1, 4, 2, 5, 3)
+                .sorted(Comparator.comparingInt(a -> -a))
+                .forEach(System.out::println);
+
+        Integer[] array =Stream.of(1, 4, 2, 5, 3)
+                .sorted((a,b)->b-a)
+                .toArray(Integer[]::new);
+        System.out.println(Arrays.toString(array));
     }
 
 }

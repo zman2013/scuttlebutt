@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
 public abstract class Scuttlebutt extends EventEmitter{
@@ -18,6 +19,8 @@ public abstract class Scuttlebutt extends EventEmitter{
     public Map<String, Long> sources = new HashMap<>();
 
     public String id;
+
+
 
 
     public Scuttlebutt(){
@@ -39,6 +42,7 @@ public abstract class Scuttlebutt extends EventEmitter{
     public Duplex createSbStream(){
         return new SbStream(this).duplex;
     }
+
 
     /**
      * localUpdate 和 history会触发此方法

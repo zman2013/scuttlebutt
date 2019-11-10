@@ -46,8 +46,8 @@ public class Model extends Scuttlebutt {
 
         return store.values().stream()
                 .filter( update -> sources.computeIfAbsent(update.sourceId, (s) -> 0L) < update.timestamp)
+                .sorted((a, b) -> (int)(a.timestamp - b.timestamp))
                 .toArray(Update[]::new);
-
     }
 
     @Override

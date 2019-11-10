@@ -17,6 +17,7 @@ public class SbStream {
 
     public Duplex duplex;
 
+
     public SbStream(Scuttlebutt scuttlebutt) {
         this.sb = scuttlebutt;
 
@@ -63,8 +64,17 @@ public class SbStream {
             return;
         }
 
-        Update[] history = sb.history(peerSources);
-        promiseResolved(history);
+        if( AsyncScuttlebutt.class.isAssignableFrom(sb.getClass())){
+            AsyncScuttlebutt asyncSb = (AsyncScuttlebutt) sb;
+            asyncSb.reentrantLock(() -> {       // 读取history，和监听sb上的update必须是原子性的，否则可能漏消息
+                Update[] history = sb.history(peerSources);
+                promiseResolved(history);
+            });
+        }else{
+            Update[] history = sb.history(peerSources);
+            promiseResolved(history);
+        }
+
     }
 
     boolean syncSent = false;

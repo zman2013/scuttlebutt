@@ -1,6 +1,11 @@
 import org.junit.Test;
 
+import javax.xml.ws.Holder;
+import java.util.Random;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class PullStreamTest {
 
@@ -8,7 +13,7 @@ public class PullStreamTest {
 
     static int n = 5;
 
-    public static void read(boolean end, BiConsumer<Boolean, Integer> cb){
+    public void read(boolean end, BiConsumer<Boolean, Integer> cb){
         if(end){
             cb.accept(end, null);
             return;
@@ -22,28 +27,61 @@ public class PullStreamTest {
         cb.accept(false, count++);
     }
 
-    public static void logger(BiConsumer<Boolean, BiConsumer<Boolean, Integer>> read){
+    public void logger(BiConsumer<Boolean, BiConsumer<Boolean, Integer>> read){
 
-        Recursive<BiConsumer<Boolean, Integer>> recursive = new Recursive<>();
-        recursive.func = (end, data) -> {
+        Holder<BiConsumer<Boolean, Integer>> holder = new Holder<>();
+        holder.value  = (end, data) -> {
             if( end )   return;
 
             System.out.println(data);
 
-            read.accept(false, recursive.func);
+            read.accept(false, holder.value);
         };
 
-        read.accept(false, recursive.func);
+        read.accept(false, holder.value);
+    }
+
+    public BiConsumer<Boolean, BiConsumer<Boolean, Integer>> triple(
+            BiConsumer<Boolean, BiConsumer<Boolean, Integer>> readable) {
+
+        return (end, f) ->
+            readable.accept(end, (isEnd, data) ->
+                f.accept(isEnd, isEnd ? null :3 * data)
+            );
+    }
+
+    public static class Pull{
+        public static void pull(BiConsumer<Boolean, BiConsumer<Boolean, Integer>> source,
+                         Function<BiConsumer<Boolean, BiConsumer<Boolean, Integer>>,
+                                 BiConsumer<Boolean, BiConsumer<Boolean, Integer>>> through,
+                         Consumer<BiConsumer<Boolean, BiConsumer<Boolean, Integer>>> sink
+                         ){
+            sink.accept(through.apply(source));
+        }
     }
 
 
-    public static class Recursive<I> {
-        public I func;
-    }
 
     @Test
     public void test(){
-        logger(PullStreamTest::read);
+        logger( this.triple(this::read) );
+
+
+        Pull.pull(this::read, this::triple, this::logger);
+
+    }
+
+    @Test
+    public void jdkStream(){
+        Stream.generate(()->new Random().nextInt())
+                .forEach(System.out::println);
+
+        int a = Stream.iterate(0, i -> i+1 )
+                .filter( i -> i > 10 )
+                .findAny()
+                .get();
+
+        System.out.println("a:"+a);
     }
 
 }

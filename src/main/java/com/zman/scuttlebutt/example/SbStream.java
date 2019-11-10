@@ -5,7 +5,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.function.UnaryOperator;
+import java.util.function.Consumer;
 
 @Slf4j
 public class SbStream {
@@ -22,7 +22,7 @@ public class SbStream {
 
         sb.streams++;
 
-        duplex = new Duplex(sb.id, this.onData, null);
+        duplex = new Duplex(sb.id, this::onData, null);
 
         Outgoing outgoing = new Outgoing(sb.id, sb.sources);
 
@@ -32,7 +32,7 @@ public class SbStream {
 
 
     boolean syncRecv = false;
-    public UnaryOperator<Object> onData = update ->{
+    public boolean onData(Object update){
         if( update instanceof Update){
             return sb.applyUpdate((Update) update);
         }else if( update instanceof  String){
@@ -44,7 +44,7 @@ public class SbStream {
         }else{
             start((Outgoing) update);
         }
-        return true;    // qa: 默认应该返回什么？
+        return true;
     };
 
     public void onClose(){
@@ -86,34 +86,36 @@ public class SbStream {
         log.info("{} sent SYNC to peer", sb.id);
     }
 
-    public UnaryOperator<Update> onUpdate = update -> {
-            log.info("got update on stream: {}", update);
+    public Consumer<Update> onUpdate = this::onUpdate;  // 单独声明Consumer属性
+    public Update onUpdate(Update update){
+        log.info("got update on stream: {}", update);
 
-            // 不可读
-            if( !duplex.readable ){
-                log.info("update ignore by it's non-readable flag");
-                return update;
-            }
-
-            // 过滤：对端时间戳更新
-            if( peerSources.get(update.sourceId) > update.timestamp ){
-                return update;
-            }
-            // 过滤：更新来自对端
-            if( update.from.equals(peerId)){
-                return update;
-            }
-
-            // 发送到对端
-            update.from = sb.id;
-            duplex.push(update);
-            log.info("sent update to peer: {}", update);
-
-            // 更新本地保存的对端的时间戳
-            peerSources.put(update.sourceId, update.timestamp);
-
+        // 不可读
+        if( !duplex.readable ){
+            log.info("update ignore by it's non-readable flag");
             return update;
-        };
+        }
+
+        // 过滤：对端时间戳更新
+        if( peerSources.get(update.sourceId) > update.timestamp ){
+            return update;
+        }
+        // 过滤：更新来自对端
+        if( update.from.equals(peerId)){
+            return update;
+        }
+
+        // 发送到对端
+        update.from = sb.id;
+        duplex.push(update);
+        log.info("sent update to peer: {}", update);
+
+        // 更新本地保存的对端的时间戳
+        peerSources.put(update.sourceId, update.timestamp);
+
+        return update;
+    };
+
 
     @ToString
     private class Outgoing {

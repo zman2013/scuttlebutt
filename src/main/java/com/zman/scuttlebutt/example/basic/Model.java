@@ -45,13 +45,7 @@ public class Model extends Scuttlebutt {
     public Update[] history(Map<String, Long> sources) {
 
         return store.values().stream()
-                .filter( update -> {
-                    if( sources.computeIfAbsent(update.sourceId, (s)->0L) < update.timestamp ){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                })
+                .filter( update -> sources.computeIfAbsent(update.sourceId, (s) -> 0L) < update.timestamp)
                 .toArray(Update[]::new);
 
     }
@@ -87,6 +81,8 @@ public class Model extends Scuttlebutt {
 
         sa.sink(sb::source);
         sb.sink(sa::source);
+
+        a.set("a-key2", "hahaha");
 
         log.info("");
         log.info("######## finally ########");

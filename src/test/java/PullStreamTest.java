@@ -43,6 +43,11 @@ public class PullStreamTest {
         read.accept(false, holder.value);
     }
 
+    @Test
+    public void test5(){
+        logger(this::read);
+    }
+
     public BiConsumer<Boolean, BiConsumer<Boolean, Integer>> triple(
             BiConsumer<Boolean, BiConsumer<Boolean, Integer>> readable) {
 
@@ -64,6 +69,7 @@ public class PullStreamTest {
 
 
 
+
     @Test
     public void test(){
         logger( this.triple(this::read) );
@@ -75,8 +81,6 @@ public class PullStreamTest {
 
     @Test
     public void jdkStream(){
-        Stream.generate(()->new Random().nextInt())
-                .forEach(System.out::println);
 
         int a = Stream.iterate(0, i -> i+1 )
                 .filter( i -> i > 10 )

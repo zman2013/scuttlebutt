@@ -1,6 +1,6 @@
-import com.zman.scuttlebutt.example.AsyncScuttlebutt;
-import com.zman.scuttlebutt.example.Scuttlebutt;
-import com.zman.scuttlebutt.example.basic.Model;
+import com.zman.scuttlebutt.AsyncScuttlebutt;
+import com.zman.scuttlebutt.Scuttlebutt;
+import com.zman.scuttlebutt.basic.Model;
 import org.junit.Test;
 
 import java.util.Map;

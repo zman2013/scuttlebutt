@@ -1,4 +1,4 @@
-package com.zman.scuttlebutt.example;
+package com.zman.scuttlebutt;
 
 import java.util.concurrent.locks.ReentrantLock;
 

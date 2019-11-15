@@ -1,6 +1,6 @@
-package com.zman.scuttlebutt.example;
+package com.zman.scuttlebutt;
 
-import com.zman.scuttlebutt.example.Scuttlebutt.Update;
+import com.zman.scuttlebutt.Scuttlebutt.Update;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 

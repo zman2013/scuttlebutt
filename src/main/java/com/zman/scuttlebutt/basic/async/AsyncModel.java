@@ -1,8 +1,8 @@
-package com.zman.scuttlebutt.example.basic.async;
+package com.zman.scuttlebutt.basic.async;
 
-import com.zman.scuttlebutt.example.AsyncScuttlebutt;
-import com.zman.scuttlebutt.example.Duplex;
-import com.zman.scuttlebutt.example.basic.BizData;
+import com.zman.scuttlebutt.Duplex;
+import com.zman.scuttlebutt.basic.BizData;
+import com.zman.scuttlebutt.AsyncScuttlebutt;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 

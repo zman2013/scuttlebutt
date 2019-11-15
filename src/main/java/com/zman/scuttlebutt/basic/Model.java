@@ -1,7 +1,7 @@
-package com.zman.scuttlebutt.example.basic;
+package com.zman.scuttlebutt.basic;
 
-import com.zman.scuttlebutt.example.Duplex;
-import com.zman.scuttlebutt.example.Scuttlebutt;
+import com.zman.scuttlebutt.Duplex;
+import com.zman.scuttlebutt.Scuttlebutt;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

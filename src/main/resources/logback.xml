@@ -8,7 +8,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.zman.scuttlebutt.example.Duplex" level="info"/>
+    <logger name="com.zman.scuttlebutt.Duplex" level="info"/>
 
     <root level="debug">
         <appender-ref ref="STDOUT" />

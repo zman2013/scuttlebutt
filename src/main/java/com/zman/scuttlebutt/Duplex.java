@@ -1,4 +1,4 @@
-package com.zman.scuttlebutt.example;
+package com.zman.scuttlebutt;
 
 
 import lombok.extern.slf4j.Slf4j;

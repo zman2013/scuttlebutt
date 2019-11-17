@@ -1,4 +1,4 @@
-package com.zman.scuttlebutt.basic;
+package example;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;

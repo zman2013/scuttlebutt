@@ -1,7 +1,9 @@
-package com.zman.scuttlebutt.basic;
+package example;
 
-import com.zman.scuttlebutt.Duplex;
+import com.zman.pull.stream.IDuplex;
+import com.zman.pull.stream.util.Pull;
 import com.zman.scuttlebutt.Scuttlebutt;
+import com.zman.scuttlebutt.bean.Update;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class Model extends Scuttlebutt {
 
         if( store.computeIfAbsent(key,(k)->new Update()).timestamp > update.timestamp ){
             log.info("I have a more recent one: {}", update);
-            return true;
+            return false;
         }
 
         store.put(key, update);
@@ -76,11 +78,10 @@ public class Model extends Scuttlebutt {
         log.info("");
         log.info("######## link ########");
 
-        Duplex sa = a.createSbStream();
-        Duplex sb = b.createSbStream();
+        IDuplex sa = a.createSbStream();
+        IDuplex sb = b.createSbStream();
 
-        sa.sink(sb::source);
-        sb.sink(sa::source);
+        Pull.link(sa, sb);
 
         a.set("a-key2", "hahaha");
 

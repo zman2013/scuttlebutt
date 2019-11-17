@@ -1,3 +1,5 @@
+[![Travis Build](https://api.travis-ci.org/zman2013/scuttlebutt.svg?branch=master)](https://api.travis-ci.org/zman2013/scuttlebutt.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/zman2013/scuttlebutt/badge.svg?branch=master)](https://coveralls.io/github/zman2013/scuttlebutt?branch=master)
 # scuttlebutt
 ## Overview
 scuttlebutt的java版实现，用来验证该方案落地的可行性，提供了一套基础库，能够便捷的实现自定义数据结构。
@@ -19,7 +21,7 @@ public class Model extends Scuttlebutt {
 
         if( store.computeIfAbsent(key,(k)->new Update()).timestamp > update.timestamp ){
             log.info("I have a more recent one: {}", update);
-            return true;
+            return false;
         }
 
         store.put(key, update);
@@ -32,15 +34,9 @@ public class Model extends Scuttlebutt {
     public Update[] history(Map<String, Long> sources) {
 
         return store.values().stream()
-                .filter( update -> {
-                    if( sources.computeIfAbsent(update.sourceId, (s)->0L) < update.timestamp ){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                })
+                .filter( update -> sources.computeIfAbsent(update.sourceId, (s) -> 0L) < update.timestamp)
+                .sorted((a, b) -> (int)(a.timestamp - b.timestamp))
                 .toArray(Update[]::new);
-
     }
     
     ...
@@ -67,11 +63,12 @@ log.info(b.toString());
 log.info("");
 log.info("######## link ########");
 
-Duplex sa = a.createSbStream();
-Duplex sb = b.createSbStream();
+IDuplex sa = a.createSbStream();
+IDuplex sb = b.createSbStream();
 
-sa.sink(sb::source);
-sb.sink(sa::source);
+Pull.link(sa, sb);
+
+a.set("a-key2", "hahaha");
 
 log.info("");
 log.info("######## finally ########");

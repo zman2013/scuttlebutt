@@ -1,8 +1,9 @@
-package com.zman.scuttlebutt.basic.async;
+package example;
 
-import com.zman.scuttlebutt.Duplex;
-import com.zman.scuttlebutt.basic.BizData;
+import com.zman.pull.stream.IDuplex;
+import com.zman.pull.stream.util.Pull;
 import com.zman.scuttlebutt.AsyncScuttlebutt;
+import com.zman.scuttlebutt.bean.Update;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,11 +81,10 @@ public class AsyncModel extends AsyncScuttlebutt {
         log.info("");
         log.info("######## link ########");
 
-        Duplex sa = a.createSbStream();
-        Duplex sb = b.createSbStream();
+        IDuplex sa = a.createSbStream();
+        IDuplex sb = b.createSbStream();
 
-        sa.sink(sb::source);
-        sb.sink(sa::source);
+        Pull.link(sa, sb);
 
         Future f = a.set("a-key2", "hahaha");
 

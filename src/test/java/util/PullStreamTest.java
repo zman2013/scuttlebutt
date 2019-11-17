@@ -1,3 +1,5 @@
+package util;
+
 import org.junit.Test;
 
 import javax.xml.ws.Holder;
@@ -44,7 +46,7 @@ public class PullStreamTest {
     }
 
     @Test
-    public void test5(){
+    public void test50000(){
         logger(this::read);
     }
 

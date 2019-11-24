@@ -4,7 +4,7 @@
 
     <groupId>com.zmannotes</groupId>
     <artifactId>scuttlebutt</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <name>scuttlebutt</name>
     <description>peer-to-peer replicable data structure.</description>
@@ -207,7 +207,7 @@
         <connection>scm:git:git@github.com:zman2013/scuttlebutt.git</connection>
         <developerConnection>scm:git:git@github.com:zman2013/scuttlebutt.git</developerConnection>
         <url>https://github.com/zman2013/scuttlebutt</url>
-        <tag>scuttlebutt-0.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <profiles>

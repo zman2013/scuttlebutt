@@ -136,7 +136,6 @@ public class ScuttlebuttTest {
         link(a2Duplex, c1Duplex);
 
         c.set("c-key", 1);
-        Thread.sleep(10);   // 确保两条update的时间戳不同
         c.set("c-key", 2);
 
         IDuplex b2Duplex = a.createSbStream();

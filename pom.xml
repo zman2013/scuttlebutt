@@ -45,6 +45,11 @@
         <dependency>
             <groupId>com.zmannotes.stream</groupId>
             <artifactId>pull-stream</artifactId>
+            <version>0.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zmannotes</groupId>
+            <artifactId>monotonic-timestamp</artifactId>
             <version>0.0.7</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -201,9 +206,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:zman2013/pull-stream.git</connection>
-        <developerConnection>scm:git:git@github.com:zman2013/pull-stream.git</developerConnection>
-        <url>https://github.com/zman2013/pull-stream</url>
+        <connection>scm:git:git@github.com:zman2013/scuttlebutt.git</connection>
+        <developerConnection>scm:git:git@github.com:zman2013/scuttlebutt.git</developerConnection>
+        <url>https://github.com/zman2013/scuttlebutt</url>
         <tag>HEAD</tag>
     </scm>
 

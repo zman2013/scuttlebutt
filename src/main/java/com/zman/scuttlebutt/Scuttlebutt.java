@@ -1,6 +1,7 @@
 package com.zman.scuttlebutt;
 
 import com.zman.event.EventEmitter;
+import com.zman.monotonic.timestamp.Timestamp;
 import com.zman.pull.stream.IDuplex;
 import com.zman.scuttlebutt.bean.StreamOptions;
 import com.zman.scuttlebutt.bean.Update;
@@ -81,7 +82,7 @@ public abstract class Scuttlebutt extends EventEmitter {
      * @return
      */
     protected boolean localUpdate(Object data){
-        return this.update(new Update(data, System.currentTimeMillis(), this.id, this.id));
+        return this.update(new Update(data, Timestamp.uniq(), this.id, this.id));
     }
 
 

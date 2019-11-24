@@ -104,4 +104,10 @@ public class PullStreamTest {
         System.out.println(Arrays.toString(array));
     }
 
+    @Test
+    public void timestamp(){
+        System.out.println(Long.MAX_VALUE);
+        System.out.println(Long.MAX_VALUE/10000);
+    }
+
 }

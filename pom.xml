@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.zmannotes</groupId>
     <artifactId>scuttlebutt</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.3</version>
 
     <name>scuttlebutt</name>
     <description>peer-to-peer replicable data structure.</description>
@@ -209,7 +207,7 @@
         <connection>scm:git:git@github.com:zman2013/scuttlebutt.git</connection>
         <developerConnection>scm:git:git@github.com:zman2013/scuttlebutt.git</developerConnection>
         <url>https://github.com/zman2013/scuttlebutt</url>
-        <tag>HEAD</tag>
+        <tag>scuttlebutt-0.0.3</tag>
     </scm>
 
     <profiles>

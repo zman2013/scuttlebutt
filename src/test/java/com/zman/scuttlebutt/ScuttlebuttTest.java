@@ -206,12 +206,12 @@ public class ScuttlebuttTest {
 
         new Scuttlebutt() {
             @Override
-            public boolean applyUpdate(Update update) {
+            public <T> boolean applyUpdate(Update<T> update) {
                 return false;
             }
 
             @Override
-            public Update[] history(Map<String, Long> sources) {
+            public <T> Update<T>[] history(Map<String, Long> sources) {
                 return new Update[0];
             }
         };

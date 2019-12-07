@@ -44,11 +44,19 @@ public class Model extends Scuttlebutt {
     }
 
     @Override
-    public Update[] history(Map<String, Long> sources) {
+    public <T> Update<T>[] history(Map<String, Long> sources) {
 
         return store.values().stream()
                 .filter( update -> sources.computeIfAbsent(update.sourceId, (s) -> 0L) < update.timestamp)
-                .sorted((a, b) -> (int)(a.timestamp - b.timestamp))
+                .sorted((a, b) -> {
+                    if(a.timestamp >b.timestamp){
+                        return 1;
+                    }else if(a.timestamp < b.timestamp){
+                        return -1;
+                    }else{
+                        return 0;
+                    }
+                })
                 .toArray(Update[]::new);
     }
 

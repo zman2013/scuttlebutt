@@ -59,7 +59,7 @@ public class AsyncModel extends AsyncScuttlebutt {
     }
 
     @Override
-    public Update[] history(Map<String, Long> sources) {
+    public <T> Update<T>[] history(Map<String, Long> sources) {
         return store.values().stream()
                 .filter( update -> sources.computeIfAbsent(update.sourceId, (s) -> 0L) < update.timestamp)
                 .sorted((a, b) -> (int)(a.timestamp - b.timestamp))

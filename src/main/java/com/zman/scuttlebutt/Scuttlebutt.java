@@ -63,7 +63,7 @@ public abstract class Scuttlebutt extends EventEmitter {
      * @param update 更新
      * @return 更新成功失败
      */
-    public abstract boolean applyUpdate(Update update);
+    public abstract <T> boolean applyUpdate(Update<T> update);
 
 
     /**
@@ -71,7 +71,7 @@ public abstract class Scuttlebutt extends EventEmitter {
      * @param sources 对方向量钟
      * @return deltaList
      */
-    public abstract Update[] history(Map<String, Long> sources);
+    public abstract <T> Update<T>[] history(Map<String, Long> sources);
 
 
     /**
@@ -81,8 +81,8 @@ public abstract class Scuttlebutt extends EventEmitter {
      * @param data
      * @return
      */
-    protected boolean localUpdate(Object data){
-        return this.update(new Update(data, Timestamp.uniq(), this.id, this.id));
+    protected <T> boolean localUpdate(T data){
+        return this.update(new Update<>(data, Timestamp.uniq(), this.id, this.id));
     }
 
 
@@ -111,7 +111,7 @@ public abstract class Scuttlebutt extends EventEmitter {
      * @param update
      * @return
      */
-    boolean update(Update update){
+    <T> boolean update(Update<T> update){
         long timestamp = update.timestamp;
         String sourceId = update.sourceId;
 
@@ -126,7 +126,7 @@ public abstract class Scuttlebutt extends EventEmitter {
 
         if(success) {
             this.sources.put(sourceId, timestamp);
-            log.debug("{} update our sources to: {}", id, sources);
+            log.debug("{} update our clock to: {}", id, sources);
         }else{
             log.error("{} apply update failed: {}", id, update);
         }

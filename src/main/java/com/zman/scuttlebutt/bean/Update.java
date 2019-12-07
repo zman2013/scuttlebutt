@@ -7,8 +7,8 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Update {
-    public Object data;
+public class Update<T> {
+    public T data;
 
     public long timestamp;
 

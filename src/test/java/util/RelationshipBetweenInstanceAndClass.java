@@ -14,12 +14,12 @@ public class RelationshipBetweenInstanceAndClass {
     public void test(){
         Scuttlebutt asyncSB = new AsyncScuttlebutt("a") {
             @Override
-            public boolean applyUpdate(Update update) {
+            public <T> boolean applyUpdate(Update<T> update) {
                 return false;
             }
 
             @Override
-            public Update[] history(Map<String, Long> sources) {
+            public <T> Update<T>[] history(Map<String, Long> sources) {
                 return new Update[0];
             }
         };

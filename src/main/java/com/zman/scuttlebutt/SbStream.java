@@ -65,7 +65,6 @@ public class SbStream{
     }
 
 
-
     private boolean closed;
     private void onClose(){
         sb.off("_update", onUpdate);
@@ -118,7 +117,7 @@ public class SbStream{
                     duplex.push(update);
                 });
 
-        log.info("{} sent history to peer: {}", sb.id, history);
+        log.info("{} sent history to peer[{}]: {}", sb.id, peerId, history);
 
         sb.on("_update", onUpdate);
 
@@ -126,7 +125,7 @@ public class SbStream{
 
         syncSent = true;
 
-        log.info("{} sent SYNC to peer", sb.id);
+        log.info("{} sent SYNC to peer[{}]", sb.id, peerId);
     }
 
     /**
@@ -190,9 +189,16 @@ public class SbStream{
     }
     /////////////   sb actions end    ///////////////
 
+    /**
+     * 关闭stream
+     */
+    public void stop(){
+        duplex.close();     // 关闭duplex，duplex会触发stream close
+    }
+
 
     @ToString
-    private class Outgoing {
+    public class Outgoing {
         String id;
         Map<String, Long> sources;
         Object meta;

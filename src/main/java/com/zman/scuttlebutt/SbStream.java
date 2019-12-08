@@ -1,5 +1,6 @@
 package com.zman.scuttlebutt;
 
+import com.zman.pull.stream.IDuplex;
 import com.zman.pull.stream.impl.DefaultDuplex;
 import com.zman.scuttlebutt.bean.StreamOptions;
 import com.zman.scuttlebutt.bean.Update;
@@ -27,7 +28,7 @@ public class SbStream{
      *  只负责监控来自sb、duplex上的事件，不参与流的实际操作
      */
     @Getter
-    private DefaultDuplex duplex;
+    private IDuplex duplex;
 
     private StreamOptions streamOptions;
 
@@ -39,7 +40,7 @@ public class SbStream{
 
         this.streamOptions = streamOptions;
 
-        duplex = new DefaultDuplex(this::onData, this::onClose, this::onError);
+        duplex = new DefaultDuplex<>(this::onData, this::onClose);
 
         Outgoing outgoing = new Outgoing(sb.id, sb.getSources());
 
@@ -48,7 +49,7 @@ public class SbStream{
 
     /////////////   duplex listeners     ///////////////
     private boolean syncRecv = false;
-    private void onData(Object update){
+    private boolean onData(Object update){
         if( update instanceof Outgoing){            // 收到对端的向量钟
             sb.emit("incoming", update);
             start((Outgoing) update);
@@ -62,21 +63,18 @@ public class SbStream{
         }else{
             sb.emit("illegalScuttlebutt", update);
         }
+        return false;
     }
 
 
     private boolean closed;
-    private void onClose(){
+    private void onClose(Throwable throwable){
         sb.off("_update", onUpdate);
         sb.streams--;
         if(!closed) {
             closed = true;
             sb.emit("close", peerId);
         }
-    }
-
-    private void onError(Object throwable){
-        sb.emit("error", throwable);
     }
     /////////////   duplex listeners end  ///////////////
 
@@ -160,6 +158,9 @@ public class SbStream{
      */
     private Consumer<Update> onUpdate = this::onUpdate;  // 单独声明Consumer属性
     private void onUpdate(Update update){
+
+        if(!syncSent) return;
+
         // 不可读
         if( !streamOptions.isReadable() ){
             log.debug("{} update ignore by it's non-readable flag", sb.id);
@@ -181,7 +182,7 @@ public class SbStream{
         // 发送到对端
         update.from = sb.id;
 
-        log.info("{} push update to peer: {}", sb.id, update);
+        log.debug("{} push update to peer: {}", sb.id, update);
         duplex.push(update);
 
         // 更新本地保存的对端的时间戳，即：更新对端掌握的知识

@@ -39,6 +39,7 @@ public class Model extends Scuttlebutt {
 
         store.put(key, update);
         // emit changes events
+        emit("updated", update);
 
         return true;
     }

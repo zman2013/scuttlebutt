@@ -10,6 +10,14 @@ scuttlebutt的java版实现，用来验证该方案落地的可行性，提供�
 4. pull stream
 5. 不强依赖三方库
 6. 与现有网络框架容易集成
+## Dependency
+```xml
+<dependency>
+    <groupId>com.zmannotes</groupId>
+    <artifactId>scuttlebutt</artifactId>
+    <version>2.1.3</version>
+</dependency>
+```
 ## 自定义Model
 ```Java
 // 继承基类Scuttlebut，实现两个抽象方法

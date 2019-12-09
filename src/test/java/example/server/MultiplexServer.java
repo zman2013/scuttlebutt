@@ -28,7 +28,6 @@ public class MultiplexServer {
         Model model = new Model(UUID.randomUUID().toString());
         model.on("updated", data -> log.info("model updated: {}", data));
 
-
         NettyServer nettyServer = new NettyServer();
         nettyServer.onAccept((connectionId, socketDuplex) -> {
 
@@ -36,15 +35,15 @@ public class MultiplexServer {
 
                     IMultiplex multiplex = createMultiplex(model);
 
-                    pull(pull(socketDuplex.source(), new NettyDecoder(), new MultiplexDecoder()),
-                            multiplex.duplex().sink());
+                    pull(socketDuplex, new NettyDecoder(), new MultiplexDecoder(),
+                            multiplex.duplex());
 
-                    pull(pull(multiplex.duplex().source(), new MultiplexEncoder(), new NettyEncoder()),
-                            socketDuplex.sink());
-                });
-        nettyServer.onDisconnect((connectionId, socketDuplex) -> socketDuplex.close());
-        nettyServer.onThrowable(Throwable::printStackTrace)
-            .listen(8081);
+                    pull(multiplex.duplex(), new MultiplexEncoder(), new NettyEncoder(),
+                            socketDuplex);
+                })
+                .onDisconnect((connectionId, socketDuplex) -> socketDuplex.close())
+                .onThrowable(Throwable::printStackTrace)
+                .listen(8081);
 
 
 //        for(int i = 0; i < 10; i ++ ){

@@ -48,10 +48,10 @@ public class MutiplexClient {
                     socketDuplex.sink().onClosed(System.out::println);
                     socketDuplex.source().onClosed(System.out::println);
 
-                    pull( pull(multiplex.duplex(), new MultiplexEncoder(), new SocketEncoder()),
+                    pull( multiplex.duplex(), new MultiplexEncoder(), new SocketEncoder(),
                             socketDuplex);
 
-                    pull( pull(socketDuplex, new SocketDecoder(), new MultiplexDecoder()),
+                    pull( socketDuplex, new SocketDecoder(), new MultiplexDecoder(),
                             multiplex.duplex());
                 })
                 .onDisconnected(()-> log.info("disconnected"))
